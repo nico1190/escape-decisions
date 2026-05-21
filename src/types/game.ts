@@ -137,6 +137,10 @@ export type PuzzleKind =
   | 'rotation'
   | 'cipher'
   | 'lights-out'
+  | 'pipe'
+  | 'mastermind'
+  | 'morse'
+  | 'constellation'
 
 export interface Puzzle {
   id: PuzzleId

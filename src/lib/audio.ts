@@ -180,6 +180,58 @@ export function playSfx(name: SfxName) {
   }
 }
 
+// ─── Morse playback ────────────────────────────────────────────────────────────
+
+const MORSE_TABLE: Record<string, string> = {
+  A: '.-', B: '-...', C: '-.-.', D: '-..', E: '.', F: '..-.', G: '--.', H: '....',
+  I: '..', J: '.---', K: '-.-', L: '.-..', M: '--', N: '-.', O: '---', P: '.--.',
+  Q: '--.-', R: '.-.', S: '...', T: '-', U: '..-', V: '...-', W: '.--', X: '-..-',
+  Y: '-.--', Z: '--..',
+  '0': '-----', '1': '.----', '2': '..---', '3': '...--', '4': '....-',
+  '5': '.....', '6': '-....', '7': '--...', '8': '---..', '9': '----.',
+}
+
+/**
+ * Plays a string of text (letters + digits, case-insensitive) as Morse code.
+ * Spaces become word gaps. Returns total duration in ms so callers can sync.
+ */
+export function playMorse(text: string, unitMs = 90, freq = 720): number {
+  const c = getCtx()
+  if (!c || !masterGain) return 0
+  let cursor = c.currentTime
+  const dotS = unitMs / 1000
+  const dashS = (unitMs * 3) / 1000
+  const intra = (unitMs * 1) / 1000 // gap between dots/dashes within a letter
+  const letterGap = (unitMs * 3) / 1000
+  const wordGap = (unitMs * 7) / 1000
+
+  for (const rawCh of text.toUpperCase()) {
+    if (rawCh === ' ') {
+      cursor += wordGap
+      continue
+    }
+    const code = MORSE_TABLE[rawCh]
+    if (!code) continue
+    for (let i = 0; i < code.length; i++) {
+      const dur = code[i] === '-' ? dashS : dotS
+      const osc = c.createOscillator()
+      const gain = c.createGain()
+      osc.type = 'sine'
+      osc.frequency.value = freq
+      osc.connect(gain).connect(masterGain)
+      gain.gain.setValueAtTime(0, cursor)
+      gain.gain.linearRampToValueAtTime(0.32, cursor + 0.005)
+      gain.gain.linearRampToValueAtTime(0.32, cursor + dur - 0.005)
+      gain.gain.linearRampToValueAtTime(0, cursor + dur)
+      osc.start(cursor)
+      osc.stop(cursor + dur + 0.02)
+      cursor += dur + intra
+    }
+    cursor += letterGap - intra
+  }
+  return (cursor - c.currentTime) * 1000
+}
+
 // ─── Ambient drones ────────────────────────────────────────────────────────────
 
 interface DroneVoice {

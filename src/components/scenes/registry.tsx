@@ -17,6 +17,10 @@ import { AsylumScene } from './AsylumScene'
 import { PirateScene } from './PirateScene'
 import { VolcanoScene } from './VolcanoScene'
 import { CryptScene } from './CryptScene'
+import { MirScene } from './MirScene'
+import { MansionScene } from './MansionScene'
+import { HeistScene } from './HeistScene'
+import { DetectiveScene } from './DetectiveScene'
 
 export interface SceneProps {
   state: PlayerState
@@ -41,6 +45,10 @@ export const SCENES: Record<string, React.FC<SceneProps>> = {
   'pirate-v1': PirateScene,
   'volcano-v1': VolcanoScene,
   'crypt-v1': CryptScene,
+  'mir-v1': MirScene,
+  'mansion-v1': MansionScene,
+  'heist-v1': HeistScene,
+  'detective-v1': DetectiveScene,
 }
 
 export function getScene(key: string | undefined): React.FC<SceneProps> | null {

@@ -15,6 +15,10 @@ import { TimingPuzzle } from './puzzles/TimingPuzzle'
 import { RotationPuzzle } from './puzzles/RotationPuzzle'
 import { CipherPuzzle } from './puzzles/CipherPuzzle'
 import { LightsOutPuzzle } from './puzzles/LightsOutPuzzle'
+import { PipePuzzle } from './puzzles/PipePuzzle'
+import { MastermindPuzzle } from './puzzles/MastermindPuzzle'
+import { MorsePuzzle } from './puzzles/MorsePuzzle'
+import { ConstellationPuzzle } from './puzzles/ConstellationPuzzle'
 
 /**
  * Dispatcher modal: based on `puzzle.kind`, renders the appropriate mini-game
@@ -100,6 +104,34 @@ export function PuzzleModal() {
         )}
         {puzzle?.kind === 'lights-out' && (
           <LightsOutPuzzle
+            puzzle={puzzle}
+            onSolve={() => submitPuzzle(true)}
+            onClose={closePuzzle}
+          />
+        )}
+        {puzzle?.kind === 'pipe' && (
+          <PipePuzzle
+            puzzle={puzzle}
+            onSolve={() => submitPuzzle(true)}
+            onClose={closePuzzle}
+          />
+        )}
+        {puzzle?.kind === 'mastermind' && (
+          <MastermindPuzzle
+            puzzle={puzzle}
+            onSolve={() => submitPuzzle(true)}
+            onClose={closePuzzle}
+          />
+        )}
+        {puzzle?.kind === 'morse' && (
+          <MorsePuzzle
+            puzzle={puzzle}
+            onSolve={() => submitPuzzle(true)}
+            onClose={closePuzzle}
+          />
+        )}
+        {puzzle?.kind === 'constellation' && (
+          <ConstellationPuzzle
             puzzle={puzzle}
             onSolve={() => submitPuzzle(true)}
             onClose={closePuzzle}
