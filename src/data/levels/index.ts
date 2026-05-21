@@ -10,6 +10,11 @@ import { LEVEL_08_PHARAOH } from './level-08-pharaoh'
 import { LEVEL_09_CASINO } from './level-09-casino'
 import { LEVEL_10_BUNKER } from './level-10-bunker'
 import { LEVEL_11_LAB } from './level-11-lab'
+import { LEVEL_12_GREENHOUSE } from './level-12-greenhouse'
+import { LEVEL_13_CRIME } from './level-13-crime'
+import { LEVEL_14_ASYLUM } from './level-14-asylum'
+import { LEVEL_15_PIRATE } from './level-15-pirate'
+import { LEVEL_16_VOLCANO } from './level-16-volcano'
 
 export const LEVELS: Level[] = [
   LEVEL_01_KITCHEN,
@@ -23,6 +28,11 @@ export const LEVELS: Level[] = [
   LEVEL_09_CASINO,
   LEVEL_10_BUNKER,
   LEVEL_11_LAB,
+  LEVEL_12_GREENHOUSE,
+  LEVEL_13_CRIME,
+  LEVEL_14_ASYLUM,
+  LEVEL_15_PIRATE,
+  LEVEL_16_VOLCANO,
 ]
 
 export const LEVELS_BY_ID: Record<LevelId, Level> = Object.fromEntries(
