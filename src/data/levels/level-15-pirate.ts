@@ -1,4 +1,4 @@
-import type { Level, Puzzle, Room } from '@/types/game'
+import type { Decision, Level, Puzzle, Room } from '@/types/game'
 
 const ROOM: Room = {
   id: 'pirate',
@@ -90,10 +90,59 @@ const ROOM: Room = {
           { type: 'flag', key: 'pi_cannon' },
         ],
       },
-      onClick: [
-        { type: 'dialog', text: 'Disparaste el cerrojo del cofre. Adentro: oro español, una corona, y mapas a otras islas.', tone: 'success' },
+      onClick: [{ type: 'openDecision', decisionId: 'pirate-final-quiz' }],
+    },
+  ],
+}
+
+const FINAL_QUIZ: Decision = {
+  id: 'pirate-final-quiz',
+  prompt:
+    'Antes de tocar el cofre el loro del capitán grazna en tu oreja: "el santo y seña, marinero. ¿qué palabra grabó el viejo en el mapa?".',
+  options: [
+    {
+      id: 'a',
+      label: 'TESORO',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'pirate-final-quiz', optionId: 'a', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'No era esa la consigna.', tone: 'error' },
+      ],
+      feedback: 'El cifrado 8-21-18-20-15 era otra palabra.',
+    },
+    {
+      id: 'b',
+      label: 'HURTO',
+      isCorrect: true,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'pirate-final-quiz', optionId: 'b', correct: true },
+        { type: 'dialog', text: 'HURTO. El loro se calla. Disparás el cañón. El cerrojo vuela. Adentro: oro español, una corona, mapas.', tone: 'success' },
         { type: 'winLevel' },
       ],
+      feedback: '8=H, 21=U, 18=R, 20=T, 15=O.',
+    },
+    {
+      id: 'c',
+      label: 'PLATA',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'pirate-final-quiz', optionId: 'c', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'El loro ríe socarrón.', tone: 'error' },
+      ],
+      feedback: '8=H. Empieza con H.',
+    },
+    {
+      id: 'd',
+      label: 'FIERRO',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'pirate-final-quiz', optionId: 'd', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'No.', tone: 'error' },
+      ],
+      feedback: 'El viejo grabó "HURTO".',
     },
   ],
 }
@@ -177,7 +226,7 @@ export const LEVEL_15_PIRATE: Level = {
   tone: 'mystery',
   startRoomId: 'pirate',
   rooms: { pirate: ROOM },
-  decisions: {},
+  decisions: { 'pirate-final-quiz': FINAL_QUIZ },
   puzzles: {
     'pi-compass-rotation': COMPASS,
     'pi-map-cipher': MAP,

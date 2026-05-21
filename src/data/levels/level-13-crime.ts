@@ -1,4 +1,4 @@
-import type { Level, Puzzle, Room } from '@/types/game'
+import type { Decision, Level, Puzzle, Room } from '@/types/game'
 
 const ROOM: Room = {
   id: 'crime',
@@ -89,10 +89,59 @@ const ROOM: Room = {
           { type: 'flag', key: 'cr_note' },
         ],
       },
-      onClick: [
-        { type: 'dialog', text: 'Con la identidad confirmada y la prueba en la mano, salís a confrontar al sospechoso.', tone: 'success' },
+      onClick: [{ type: 'openDecision', decisionId: 'crime-final-quiz' }],
+    },
+  ],
+}
+
+const FINAL_QUIZ: Decision = {
+  id: 'crime-final-quiz',
+  prompt:
+    'En el umbral del despacho aparece el comisario: "antes de salir a confrontarlo decime el apellido del sospechoso, sino no te dejo subir al patrullero".',
+  options: [
+    {
+      id: 'a',
+      label: 'VARGAS',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'crime-final-quiz', optionId: 'a', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'No es ese apellido.', tone: 'error' },
+      ],
+      feedback: 'El anagrama tenía las letras R-O-S-A-S.',
+    },
+    {
+      id: 'b',
+      label: 'ROSAS',
+      isCorrect: true,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'crime-final-quiz', optionId: 'b', correct: true },
+        { type: 'dialog', text: 'ROSAS. El comisario asiente. Subís al patrullero — el sospechoso espera al final del muelle.', tone: 'success' },
         { type: 'winLevel' },
       ],
+      feedback: 'El anagrama del corcho.',
+    },
+    {
+      id: 'c',
+      label: 'MORAL',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'crime-final-quiz', optionId: 'c', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'No.', tone: 'error' },
+      ],
+      feedback: 'R-O-S-A-S armaba el apellido.',
+    },
+    {
+      id: 'd',
+      label: 'LEYVA',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'crime-final-quiz', optionId: 'd', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'Ese era el del expediente anterior.', tone: 'error' },
+      ],
+      feedback: 'El sospechoso era ROSAS.',
     },
   ],
 }
@@ -161,7 +210,7 @@ export const LEVEL_13_CRIME: Level = {
   tone: 'mystery',
   startRoomId: 'crime',
   rooms: { crime: ROOM },
-  decisions: {},
+  decisions: { 'crime-final-quiz': FINAL_QUIZ },
   puzzles: {
     'cr-suspect-word': SUSPECT,
     'cr-witness-memory': WITNESS,

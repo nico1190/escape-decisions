@@ -1,4 +1,4 @@
-import type { Level, Puzzle, Room } from '@/types/game'
+import type { Decision, Level, Puzzle, Room } from '@/types/game'
 
 const ROOM: Room = {
   id: 'lab',
@@ -131,10 +131,59 @@ const ROOM: Room = {
           { type: 'flag', key: 'lab_door' },
         ],
       },
-      onClick: [
-        { type: 'dialog', text: 'La compuerta de contención se descomprime. Salís sin haber liberado nada al exterior. Misión Σ: limpia.', tone: 'success' },
+      onClick: [{ type: 'openDecision', decisionId: 'lab-final-quiz' }],
+    },
+  ],
+}
+
+const FINAL_QUIZ: Decision = {
+  id: 'lab-final-quiz',
+  prompt:
+    'La compuerta no se mueve. La AI de bioseguridad pide la confirmación final: "¿cómo se llamaba el proyecto Σ?".',
+  options: [
+    {
+      id: 'a',
+      label: 'ALMA',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'lab-final-quiz', optionId: 'a', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'No es el codename.', tone: 'error' },
+      ],
+      feedback: 'El cifrado 19-15-13-1 deletreaba otro nombre.',
+    },
+    {
+      id: 'b',
+      label: 'SOMA',
+      isCorrect: true,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'lab-final-quiz', optionId: 'b', correct: true },
+        { type: 'dialog', text: 'SOMA. La compuerta se descomprime. Salís sin haber liberado nada al exterior. Misión Σ: limpia.', tone: 'success' },
         { type: 'winLevel' },
       ],
+      feedback: '19=S, 15=O, 13=M, 1=A.',
+    },
+    {
+      id: 'c',
+      label: 'AURA',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'lab-final-quiz', optionId: 'c', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'No coincide.', tone: 'error' },
+      ],
+      feedback: 'La pizarra mostraba 19-15-13-1.',
+    },
+    {
+      id: 'd',
+      label: 'ZETA',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'lab-final-quiz', optionId: 'd', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'La letra griega está en el logo, no en el nombre.', tone: 'error' },
+      ],
+      feedback: 'El nombre era SOMA.',
     },
   ],
 }
@@ -225,7 +274,7 @@ export const LEVEL_11_LAB: Level = {
   tone: 'mystery',
   startRoomId: 'lab',
   rooms: { lab: ROOM },
-  decisions: {},
+  decisions: { 'lab-final-quiz': FINAL_QUIZ },
   puzzles: {
     'lab-reset-memory': RESET,
     'lab-power-wires': POWER,

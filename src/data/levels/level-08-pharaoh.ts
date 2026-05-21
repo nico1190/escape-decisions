@@ -1,4 +1,4 @@
-import type { Level, Puzzle, Room } from '@/types/game'
+import type { Decision, Level, Puzzle, Room } from '@/types/game'
 
 const ROOM: Room = {
   id: 'tomb',
@@ -77,10 +77,59 @@ const ROOM: Room = {
           { type: 'flag', key: 'ph_balance' },
         ],
       },
-      onClick: [
-        { type: 'dialog', text: 'La puerta de piedra se desliza. Saliste con la verdad — y un escarabajo dorado.', tone: 'success' },
+      onClick: [{ type: 'openDecision', decisionId: 'pharaoh-final-quiz' }],
+    },
+  ],
+}
+
+const FINAL_QUIZ: Decision = {
+  id: 'pharaoh-final-quiz',
+  prompt:
+    'Justo antes de cruzar el dintel, un guardián de piedra se anima y te exige el nombre que invocaste para descifrar la cámara.',
+  options: [
+    {
+      id: 'a',
+      label: 'ANUBIS',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'pharaoh-final-quiz', optionId: 'a', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'El dios del más allá no. Otro.', tone: 'error' },
+      ],
+      feedback: '1-13-21-14 deletreaba otro nombre.',
+    },
+    {
+      id: 'b',
+      label: 'AMUN',
+      isCorrect: true,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'pharaoh-final-quiz', optionId: 'b', correct: true },
+        { type: 'dialog', text: 'AMUN. El dios oculto. La puerta de piedra se desliza. Saliste con la verdad — y un escarabajo dorado.', tone: 'success' },
         { type: 'winLevel' },
       ],
+      feedback: '1=A, 13=M, 21=U, 14=N.',
+    },
+    {
+      id: 'c',
+      label: 'HORUS',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'pharaoh-final-quiz', optionId: 'c', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'El dios del cielo no era hoy.', tone: 'error' },
+      ],
+      feedback: 'Eran 4 letras: A-M-U-N.',
+    },
+    {
+      id: 'd',
+      label: 'RA',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'pharaoh-final-quiz', optionId: 'd', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'El sol no, esta vez.', tone: 'error' },
+      ],
+      feedback: 'Eran 4 letras, no 2.',
     },
   ],
 }
@@ -152,7 +201,7 @@ export const LEVEL_08_PHARAOH: Level = {
   tone: 'mystery',
   startRoomId: 'tomb',
   rooms: { tomb: ROOM },
-  decisions: {},
+  decisions: { 'pharaoh-final-quiz': FINAL_QUIZ },
   puzzles: {
     'ph-sarc-rings': SARC,
     'ph-name-cipher': NAME,

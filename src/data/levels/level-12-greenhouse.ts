@@ -1,4 +1,4 @@
-import type { Level, Puzzle, Room } from '@/types/game'
+import type { Decision, Level, Puzzle, Room } from '@/types/game'
 
 const ROOM: Room = {
   id: 'greenhouse',
@@ -100,10 +100,59 @@ const ROOM: Room = {
           { type: 'flag', key: 'gh_exit' },
         ],
       },
-      onClick: [
-        { type: 'dialog', text: 'Con el antídoto en la sangre, salís al aire fresco del jardín exterior.', tone: 'success' },
+      onClick: [{ type: 'openDecision', decisionId: 'greenhouse-final-quiz' }],
+    },
+  ],
+}
+
+const FINAL_QUIZ: Decision = {
+  id: 'greenhouse-final-quiz',
+  prompt:
+    'El jardinero del exterior te detiene en el portal con un trapo en la cara: "decime el nombre del antídoto y te dejo respirar el aire de afuera".',
+  options: [
+    {
+      id: 'a',
+      label: 'MENTA',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'greenhouse-final-quiz', optionId: 'a', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'No es esa planta.', tone: 'error' },
+      ],
+      feedback: '22-9-4-1 deletreaba otra palabra.',
+    },
+    {
+      id: 'b',
+      label: 'VIDA',
+      isCorrect: true,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'greenhouse-final-quiz', optionId: 'b', correct: true },
+        { type: 'dialog', text: 'VIDA. El jardinero te abre el portal. Salís al jardín exterior, respirando.', tone: 'success' },
         { type: 'winLevel' },
       ],
+      feedback: '22=V, 9=I, 4=D, 1=A.',
+    },
+    {
+      id: 'c',
+      label: 'MIEL',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'greenhouse-final-quiz', optionId: 'c', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'La miel no era el antídoto.', tone: 'error' },
+      ],
+      feedback: '22=V. Empieza con V.',
+    },
+    {
+      id: 'd',
+      label: 'ALBA',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'greenhouse-final-quiz', optionId: 'd', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'No.', tone: 'error' },
+      ],
+      feedback: 'Eran 4 letras empezando con V.',
     },
   ],
 }
@@ -161,7 +210,7 @@ export const LEVEL_12_GREENHOUSE: Level = {
   tone: 'mystery',
   startRoomId: 'greenhouse',
   rooms: { greenhouse: ROOM },
-  decisions: {},
+  decisions: { 'greenhouse-final-quiz': FINAL_QUIZ },
   puzzles: {
     'gh-plant-cipher': PLANT,
     'gh-antidote-mix': ANTIDOTE,

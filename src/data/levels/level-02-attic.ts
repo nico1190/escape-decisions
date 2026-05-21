@@ -1,4 +1,4 @@
-import type { Level, Puzzle, Room } from '@/types/game'
+import type { Decision, Level, Puzzle, Room } from '@/types/game'
 
 /**
  * Nivel 2 — "El Desván del Abuelo"
@@ -173,15 +173,64 @@ const ATTIC: Room = {
           { type: 'flag', key: 'lock_numbers' },
         ],
       },
-      onClick: [
+      onClick: [{ type: 'openDecision', decisionId: 'attic-final-quiz' }],
+    },
+  ],
+}
+
+const FINAL_QUIZ: Decision = {
+  id: 'attic-final-quiz',
+  prompt:
+    'Antes de tocar el baúl, parate. La voz del abuelo te queda en la cabeza: "¿de qué año era la foto del verano con Rose?". Si no podés responder, no merecés lo de adentro.',
+  options: [
+    {
+      id: 'a',
+      label: '1948',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'attic-final-quiz', optionId: 'a', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'La nota decía claramente "summer of \'52". Probá de nuevo.', tone: 'error' },
+      ],
+      feedback: 'La inscripción al dorso de la foto decía "summer of \'52".',
+    },
+    {
+      id: 'b',
+      label: '1952',
+      isCorrect: true,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'attic-final-quiz', optionId: 'b', correct: true },
         {
           type: 'dialog',
           text:
-            'Levantás la tapa. Adentro hay cartas viejas, fotos, y una vieja medalla de tu abuelo. Todo en orden.',
+            'Sí, verano del 52. Levantás la tapa. Adentro hay cartas, fotos y la vieja medalla de tu abuelo. Todo en orden.',
           tone: 'success',
         },
         { type: 'winLevel' },
       ],
+      feedback: '"For my dear ROSE — summer of \'52". Exacto.',
+    },
+    {
+      id: 'c',
+      label: '1968',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'attic-final-quiz', optionId: 'c', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'La foto era mucho más vieja. Mirala otra vez.', tone: 'error' },
+      ],
+      feedback: '"summer of \'52" en la foto sepia.',
+    },
+    {
+      id: 'd',
+      label: '1974',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'attic-final-quiz', optionId: 'd', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'Para esa fecha el abuelo ya era viejo.', tone: 'error' },
+      ],
+      feedback: '"summer of \'52" — está en el reverso del marco.',
     },
   ],
 }
@@ -278,7 +327,7 @@ export const LEVEL_02_ATTIC: Level = {
   tone: 'mystery',
   startRoomId: 'attic',
   rooms: { attic: ATTIC },
-  decisions: {},
+  decisions: { 'attic-final-quiz': FINAL_QUIZ },
   puzzles: {
     'lock-letters-puzzle': LOCK_LETTERS_PUZZLE,
     'lock-colors-puzzle': LOCK_COLORS_PUZZLE,

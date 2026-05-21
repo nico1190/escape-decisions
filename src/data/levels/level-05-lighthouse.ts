@@ -1,4 +1,4 @@
-import type { Level, Puzzle, Room } from '@/types/game'
+import type { Decision, Level, Puzzle, Room } from '@/types/game'
 
 const ROOM: Room = {
   id: 'lighthouse',
@@ -104,10 +104,59 @@ const ROOM: Room = {
           { type: 'flag', key: 'lh_door' },
         ],
       },
-      onClick: [
-        { type: 'dialog', text: 'El faro queda atrás, la tormenta empuja afuera.', tone: 'success' },
+      onClick: [{ type: 'openDecision', decisionId: 'lighthouse-final-quiz' }],
+    },
+  ],
+}
+
+const FINAL_QUIZ: Decision = {
+  id: 'lighthouse-final-quiz',
+  prompt:
+    'El viento se calma un instante en el umbral. La radio chillona del muelle te pregunta: "¿qué palabra repetía el último farero en su diario?".',
+  options: [
+    {
+      id: 'a',
+      label: 'MAR',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'lighthouse-final-quiz', optionId: 'a', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'Era cuatro letras. Mirá la cifra otra vez.', tone: 'error' },
+      ],
+      feedback: 'El cifrado 6-1-18-15 deletreaba otra palabra.',
+    },
+    {
+      id: 'b',
+      label: 'FARO',
+      isCorrect: true,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'lighthouse-final-quiz', optionId: 'b', correct: true },
+        { type: 'dialog', text: 'FARO. La puerta de bronce te deja ir. La tormenta te empuja afuera, pero sano y salvo.', tone: 'success' },
         { type: 'winLevel' },
       ],
+      feedback: '6=F, 1=A, 18=R, 15=O. FARO.',
+    },
+    {
+      id: 'c',
+      label: 'LUZ',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'lighthouse-final-quiz', optionId: 'c', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'Eran cuatro letras, no tres.', tone: 'error' },
+      ],
+      feedback: '6-1-18-15 son cuatro números.',
+    },
+    {
+      id: 'd',
+      label: 'ROCA',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'lighthouse-final-quiz', optionId: 'd', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'Esa no.', tone: 'error' },
+      ],
+      feedback: '6=F, no R.',
     },
   ],
 }
@@ -173,7 +222,7 @@ export const LEVEL_05_LIGHTHOUSE: Level = {
   tone: 'mystery',
   startRoomId: 'lighthouse',
   rooms: { lighthouse: ROOM },
-  decisions: {},
+  decisions: { 'lighthouse-final-quiz': FINAL_QUIZ },
   puzzles: {
     'lh-mirrors-puzzle': MIRRORS,
     'lh-journal-cipher': JOURNAL_CIPHER,

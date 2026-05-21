@@ -1,4 +1,4 @@
-import type { Level, Puzzle, Room } from '@/types/game'
+import type { Decision, Level, Puzzle, Room } from '@/types/game'
 
 const ROOM: Room = {
   id: 'asylum',
@@ -99,10 +99,59 @@ const ROOM: Room = {
           { type: 'flag', key: 'as_door' },
         ],
       },
-      onClick: [
-        { type: 'dialog', text: 'La cerradura cede. Salís corriendo por el pasillo hacia la salida del manicomio.', tone: 'success' },
+      onClick: [{ type: 'openDecision', decisionId: 'asylum-final-quiz' }],
+    },
+  ],
+}
+
+const FINAL_QUIZ: Decision = {
+  id: 'asylum-final-quiz',
+  prompt:
+    'El enfermero del turno noche te corta el paso: "para dejarte pasar decime qué te diagnosticó el doctor en tu historia clínica".',
+  options: [
+    {
+      id: 'a',
+      label: 'SANO',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'asylum-final-quiz', optionId: 'a', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'Si fueras sano no estarías acá.', tone: 'error' },
+      ],
+      feedback: '12-15-3-15 deletreaba otra palabra.',
+    },
+    {
+      id: 'b',
+      label: 'LOCO',
+      isCorrect: true,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'asylum-final-quiz', optionId: 'b', correct: true },
+        { type: 'dialog', text: 'LOCO. El enfermero se ríe y te abre la puerta. Salís corriendo por el pasillo.', tone: 'success' },
         { type: 'winLevel' },
       ],
+      feedback: '12=L, 15=O, 3=C, 15=O.',
+    },
+    {
+      id: 'c',
+      label: 'BUEN',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'asylum-final-quiz', optionId: 'c', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'Esa no era la palabra del doctor.', tone: 'error' },
+      ],
+      feedback: 'El cifrado era 12-15-3-15.',
+    },
+    {
+      id: 'd',
+      label: 'MUDO',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'asylum-final-quiz', optionId: 'd', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'No.', tone: 'error' },
+      ],
+      feedback: '12=L, 15=O. Empieza con L.',
     },
   ],
 }
@@ -180,7 +229,7 @@ export const LEVEL_14_ASYLUM: Level = {
   tone: 'mystery',
   startRoomId: 'asylum',
   rooms: { asylum: ROOM },
-  decisions: {},
+  decisions: { 'asylum-final-quiz': FINAL_QUIZ },
   puzzles: {
     'as-chair-rotation': CHAIR,
     'as-heart-timing': HEART,

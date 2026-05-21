@@ -1,4 +1,4 @@
-import type { Level, Puzzle, Room } from '@/types/game'
+import type { Decision, Level, Puzzle, Room } from '@/types/game'
 
 const ROOM: Room = {
   id: 'volcano',
@@ -74,10 +74,59 @@ const ROOM: Room = {
           { type: 'flag', key: 'vo_pod' },
         ],
       },
-      onClick: [
-        { type: 'dialog', text: 'La compuerta de la cápsula se abre. Te sentás. El cohete dispara hacia el cielo, atrás queda el cono ardiendo.', tone: 'success' },
+      onClick: [{ type: 'openDecision', decisionId: 'volcano-final-quiz' }],
+    },
+  ],
+}
+
+const FINAL_QUIZ: Decision = {
+  id: 'volcano-final-quiz',
+  prompt:
+    'El comandante de la evac te grita por radio: "antes de lanzar la cápsula confirmá: ¿en qué orden cortaste los cables de la alarma sísmica?".',
+  options: [
+    {
+      id: 'a',
+      label: 'por color (de izq a der)',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'volcano-final-quiz', optionId: 'a', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'No fue así.', tone: 'error' },
+      ],
+      feedback: 'El puzzle exigía orden ALFABÉTICO del nombre del color.',
+    },
+    {
+      id: 'b',
+      label: 'aleatorio',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'volcano-final-quiz', optionId: 'b', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'Aleatorio no — te habría reiniciado.', tone: 'error' },
+      ],
+      feedback: 'Había una regla estricta de orden alfabético.',
+    },
+    {
+      id: 'c',
+      label: 'alfabético del color',
+      isCorrect: true,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'volcano-final-quiz', optionId: 'c', correct: true },
+        { type: 'dialog', text: 'Correcto. Amarillo → Azul → Verde → Rojo. El comandante te da luz verde. La cápsula despega justo cuando el techo cae.', tone: 'success' },
         { type: 'winLevel' },
       ],
+      feedback: 'Amarillo → Azul → Verde → Rojo. Orden alfabético en español.',
+    },
+    {
+      id: 'd',
+      label: 'inverso alfabético',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'volcano-final-quiz', optionId: 'd', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'Inverso no fue. Repasá el hint del puzzle.', tone: 'error' },
+      ],
+      feedback: 'El puzzle decía ALFABÉTICO (no inverso).',
     },
   ],
 }
@@ -138,7 +187,7 @@ export const LEVEL_16_VOLCANO: Level = {
   tone: 'mystery',
   startRoomId: 'volcano',
   rooms: { volcano: ROOM },
-  decisions: {},
+  decisions: { 'volcano-final-quiz': FINAL_QUIZ },
   puzzles: {
     'vo-alarm-wires': ALARM,
     'vo-tremor-timing': TREMOR,

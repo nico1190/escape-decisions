@@ -1,4 +1,4 @@
-import type { Level, Puzzle, Room } from '@/types/game'
+import type { Decision, Level, Puzzle, Room } from '@/types/game'
 
 const ROOM: Room = {
   id: 'casino',
@@ -85,10 +85,59 @@ const ROOM: Room = {
           { type: 'flag', key: 'cas_vault' },
         ],
       },
-      onClick: [
-        { type: 'dialog', text: 'La rueda gira. Las puertas se abren con un chorro de aire frío. Bóveda abierta.', tone: 'success' },
+      onClick: [{ type: 'openDecision', decisionId: 'casino-final-quiz' }],
+    },
+  ],
+}
+
+const FINAL_QUIZ: Decision = {
+  id: 'casino-final-quiz',
+  prompt:
+    'Tu socio en el auto te grita por radio antes de tocar la bóveda: "decime la hora exacta a la que el casino quedó vacío según el plan, sino me piro".',
+  options: [
+    {
+      id: 'a',
+      label: '1 AM',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'casino-final-quiz', optionId: 'a', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'Demasiado temprano. Tu socio cuelga.', tone: 'error' },
+      ],
+      feedback: 'El intro decía 3 AM.',
+    },
+    {
+      id: 'b',
+      label: '3 AM',
+      isCorrect: true,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'casino-final-quiz', optionId: 'b', correct: true },
+        { type: 'dialog', text: '3 AM. Bien. Tu socio confirma. Bóveda abierta — lingotes hasta el techo.', tone: 'success' },
         { type: 'winLevel' },
       ],
+      feedback: 'Casino vacío salvo por la bóveda VIP. 3 AM.',
+    },
+    {
+      id: 'c',
+      label: '5 AM',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'casino-final-quiz', optionId: 'c', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'Para las 5 ya estarías escapando.', tone: 'error' },
+      ],
+      feedback: 'El intro lo decía: 3 AM.',
+    },
+    {
+      id: 'd',
+      label: '7 AM',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'casino-final-quiz', optionId: 'd', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'Eso ya es de día. Te ven.', tone: 'error' },
+      ],
+      feedback: 'Casino vacío salvo por la bóveda VIP a las 3 AM.',
     },
   ],
 }
@@ -146,7 +195,7 @@ export const LEVEL_09_CASINO: Level = {
   tone: 'mystery',
   startRoomId: 'casino',
   rooms: { casino: ROOM },
-  decisions: {},
+  decisions: { 'casino-final-quiz': FINAL_QUIZ },
   puzzles: {
     'cas-alarm-wires': ALARM,
     'cas-vault-dial': DIAL,

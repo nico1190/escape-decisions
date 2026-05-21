@@ -1,4 +1,4 @@
-import type { Level, Puzzle, Room } from '@/types/game'
+import type { Decision, Level, Puzzle, Room } from '@/types/game'
 
 /**
  * Nivel 3 — "Estación Abandonada"
@@ -163,15 +163,64 @@ const STATION: Room = {
           { type: 'flag', key: 'sys_pressure' },
         ],
       },
-      onClick: [
+      onClick: [{ type: 'openDecision', decisionId: 'station-final-quiz' }],
+    },
+  ],
+}
+
+const FINAL_QUIZ: Decision = {
+  id: 'station-final-quiz',
+  prompt:
+    'Antes de cruzar la blast door, la AI te exige una confirmación: ¿cuántos sistemas críticos restauraste en la estación?',
+  options: [
+    {
+      id: 'a',
+      label: '2',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'station-final-quiz', optionId: 'a', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'Más que eso. La AI no confía en vos.', tone: 'error' },
+      ],
+      feedback: 'Reactor + comms + presión + puerta. Cuatro.',
+    },
+    {
+      id: 'b',
+      label: '3',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'station-final-quiz', optionId: 'b', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'Una luz verde más. Contá de nuevo.', tone: 'error' },
+      ],
+      feedback: 'Reactor, comms, presión y puerta — son cuatro.',
+    },
+    {
+      id: 'c',
+      label: '4',
+      isCorrect: true,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'station-final-quiz', optionId: 'c', correct: true },
         {
           type: 'dialog',
           text:
-            'La puerta blast se abre con un siseo neumático. Pasás al pasillo iluminado. Salida lograda.',
+            'Cuatro sistemas: reactor, comms, presión, puerta. La AI te deja pasar — la blast door siseando.',
           tone: 'success',
         },
         { type: 'winLevel' },
       ],
+      feedback: 'Reactor, comms, presión y puerta.',
+    },
+    {
+      id: 'd',
+      label: '5',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'station-final-quiz', optionId: 'd', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'Estás contando alguno que no existía.', tone: 'error' },
+      ],
+      feedback: 'Solo había cuatro paneles activos.',
     },
   ],
 }
@@ -288,7 +337,7 @@ export const LEVEL_03_STATION: Level = {
   tone: 'mystery',
   startRoomId: 'station',
   rooms: { station: STATION },
-  decisions: {},
+  decisions: { 'station-final-quiz': FINAL_QUIZ },
   puzzles: {
     'station-reactor-sliders': SLIDER_PUZZLE,
     'station-comms-wires': WIRE_PUZZLE,

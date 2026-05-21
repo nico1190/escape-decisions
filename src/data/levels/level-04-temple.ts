@@ -1,4 +1,4 @@
-import type { Level, Puzzle, Room } from '@/types/game'
+import type { Decision, Level, Puzzle, Room } from '@/types/game'
 
 /**
  * Nivel 4 — "El Templo Olvidado"
@@ -148,15 +148,64 @@ const TEMPLE: Room = {
           { type: 'flag', key: 'temple_door' },
         ],
       },
-      onClick: [
+      onClick: [{ type: 'openDecision', decisionId: 'temple-final-quiz' }],
+    },
+  ],
+}
+
+const FINAL_QUIZ: Decision = {
+  id: 'temple-final-quiz',
+  prompt:
+    'El portón te detiene. Una voz hueca repite la inscripción: "¿qué palabra estaba grabada en la piedra del templo?".',
+  options: [
+    {
+      id: 'a',
+      label: 'ALMA',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'temple-final-quiz', optionId: 'a', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'No era esa.', tone: 'error' },
+      ],
+      feedback: '4-9-15-19 deletreaba otra palabra.',
+    },
+    {
+      id: 'b',
+      label: 'DIOS',
+      isCorrect: true,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'temple-final-quiz', optionId: 'b', correct: true },
         {
           type: 'dialog',
           text:
-            'El portón se mueve hacia atrás liberando un pasaje. Subís los escalones hacia la selva.',
+            'DIOS. El portón cede y subís los escalones hacia la selva.',
           tone: 'success',
         },
         { type: 'winLevel' },
       ],
+      feedback: '4=D, 9=I, 15=O, 19=S. DIOS.',
+    },
+    {
+      id: 'c',
+      label: 'MAGO',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'temple-final-quiz', optionId: 'c', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'No.', tone: 'error' },
+      ],
+      feedback: 'El cifrado era 4-9-15-19 con A=1...Z=26.',
+    },
+    {
+      id: 'd',
+      label: 'REGO',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'temple-final-quiz', optionId: 'd', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'No es esa.', tone: 'error' },
+      ],
+      feedback: 'La inscripción decía 4-9-15-19.',
     },
   ],
 }
@@ -247,7 +296,7 @@ export const LEVEL_04_TEMPLE: Level = {
   tone: 'mystery',
   startRoomId: 'temple',
   rooms: { temple: TEMPLE },
-  decisions: {},
+  decisions: { 'temple-final-quiz': FINAL_QUIZ },
   puzzles: {
     'temple-rings-puzzle': RINGS_PUZZLE,
     'temple-cipher-puzzle': CIPHER_PUZZLE,

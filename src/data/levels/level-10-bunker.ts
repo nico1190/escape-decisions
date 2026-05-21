@@ -1,4 +1,4 @@
-import type { Level, Puzzle, Room } from '@/types/game'
+import type { Decision, Level, Puzzle, Room } from '@/types/game'
 
 const ROOM: Room = {
   id: 'bunker',
@@ -73,10 +73,59 @@ const ROOM: Room = {
           { type: 'flag', key: 'bk_valve' },
         ],
       },
-      onClick: [
-        { type: 'dialog', text: 'La escotilla cede. Subís a 1979 — pero a un mundo que no se autodestruyó.', tone: 'success' },
+      onClick: [{ type: 'openDecision', decisionId: 'bunker-final-quiz' }],
+    },
+  ],
+}
+
+const FINAL_QUIZ: Decision = {
+  id: 'bunker-final-quiz',
+  prompt:
+    'Antes de abrir la escotilla, el sistema te pide una confirmación final: "¿en qué año se desarrolla esta operación?".',
+  options: [
+    {
+      id: 'a',
+      label: '1962',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'bunker-final-quiz', optionId: 'a', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'Crisis cubana no, esta vez.', tone: 'error' },
+      ],
+      feedback: 'El intro decía 1979.',
+    },
+    {
+      id: 'b',
+      label: '1972',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'bunker-final-quiz', optionId: 'b', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'Casi.', tone: 'error' },
+      ],
+      feedback: 'Fue 1979.',
+    },
+    {
+      id: 'c',
+      label: '1979',
+      isCorrect: true,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'bunker-final-quiz', optionId: 'c', correct: true },
+        { type: 'dialog', text: '1979. Confirmado. La escotilla cede. Salís a una mañana de otoño en Nevada.', tone: 'success' },
         { type: 'winLevel' },
       ],
+      feedback: 'El título mismo lo dice: Búnker \'79.',
+    },
+    {
+      id: 'd',
+      label: '1985',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'bunker-final-quiz', optionId: 'd', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'Más temprano.', tone: 'error' },
+      ],
+      feedback: 'Fue 1979.',
     },
   ],
 }
@@ -136,7 +185,7 @@ export const LEVEL_10_BUNKER: Level = {
   tone: 'mystery',
   startRoomId: 'bunker',
   rooms: { bunker: ROOM },
-  decisions: {},
+  decisions: { 'bunker-final-quiz': FINAL_QUIZ },
   puzzles: {
     'bk-launch-code': LAUNCH,
     'bk-wires': WIRES,

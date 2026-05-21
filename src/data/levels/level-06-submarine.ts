@@ -1,4 +1,4 @@
-import type { Level, Puzzle, Room } from '@/types/game'
+import type { Decision, Level, Puzzle, Room } from '@/types/game'
 
 const ROOM: Room = {
   id: 'submarine',
@@ -88,10 +88,59 @@ const ROOM: Room = {
           { type: 'flag', key: 'sub_radio' },
         ],
       },
-      onClick: [
-        { type: 'dialog', text: 'La escotilla se libera con un siseo. Subís a la superficie.', tone: 'success' },
+      onClick: [{ type: 'openDecision', decisionId: 'submarine-final-quiz' }],
+    },
+  ],
+}
+
+const FINAL_QUIZ: Decision = {
+  id: 'submarine-final-quiz',
+  prompt:
+    'Antes de abrir la escotilla, el operador del rescate por radio pide confirmación: "¿a qué profundidad quedó atrapado tu sub?".',
+  options: [
+    {
+      id: 'a',
+      label: '200 m',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'submarine-final-quiz', optionId: 'a', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'Más profundo. La radio se corta.', tone: 'error' },
+      ],
+      feedback: 'El intro decía 400 m.',
+    },
+    {
+      id: 'b',
+      label: '300 m',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'submarine-final-quiz', optionId: 'b', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'Te tira un poco corto.', tone: 'error' },
+      ],
+      feedback: '400 m según los registros.',
+    },
+    {
+      id: 'c',
+      label: '400 m',
+      isCorrect: true,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'submarine-final-quiz', optionId: 'c', correct: true },
+        { type: 'dialog', text: '400 m. Coincide con lo que el rescate ya marcaba. La escotilla siseando, subís.', tone: 'success' },
         { type: 'winLevel' },
       ],
+      feedback: 'Confirmado en el briefing del nivel.',
+    },
+    {
+      id: 'd',
+      label: '600 m',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'submarine-final-quiz', optionId: 'd', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'A esa profundidad ya estaría aplastado.', tone: 'error' },
+      ],
+      feedback: 'Fue 400 m, no 600.',
     },
   ],
 }
@@ -151,7 +200,7 @@ export const LEVEL_06_SUBMARINE: Level = {
   tone: 'mystery',
   startRoomId: 'submarine',
   rooms: { submarine: ROOM },
-  decisions: {},
+  decisions: { 'submarine-final-quiz': FINAL_QUIZ },
   puzzles: {
     'sub-valves-timing': VALVES,
     'sub-depth-sliders': DEPTH,

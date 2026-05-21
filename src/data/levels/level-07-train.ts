@@ -1,4 +1,4 @@
-import type { Level, Puzzle, Room } from '@/types/game'
+import type { Decision, Level, Puzzle, Room } from '@/types/game'
 
 const ROOM: Room = {
   id: 'train',
@@ -92,10 +92,59 @@ const ROOM: Room = {
           { type: 'flag', key: 'tr_trunk' },
         ],
       },
-      onClick: [
-        { type: 'dialog', text: 'Con la prueba en la mano salís al pasillo. El sospechoso espera al final del vagón.', tone: 'success' },
+      onClick: [{ type: 'openDecision', decisionId: 'train-final-quiz' }],
+    },
+  ],
+}
+
+const FINAL_QUIZ: Decision = {
+  id: 'train-final-quiz',
+  prompt:
+    'El conductor te detiene en el pasillo, linterna en mano: "para dejarte pasar al otro vagón decime el alias del asesino que descifraste en el ticket".',
+  options: [
+    {
+      id: 'a',
+      label: 'ZORRO',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'train-final-quiz', optionId: 'a', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'El conductor te clava la mirada. No.', tone: 'error' },
+      ],
+      feedback: 'El ticket marcaba 22-9-5-14-20-15.',
+    },
+    {
+      id: 'b',
+      label: 'TROVADOR',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'train-final-quiz', optionId: 'b', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'No. Otra vez.', tone: 'error' },
+      ],
+      feedback: 'Eran 6 letras: 22-9-5-14-20-15.',
+    },
+    {
+      id: 'c',
+      label: 'VIENTO',
+      isCorrect: true,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'train-final-quiz', optionId: 'c', correct: true },
+        { type: 'dialog', text: 'VIENTO. El conductor abre la puerta del vagón. El asesino te espera del otro lado.', tone: 'success' },
         { type: 'winLevel' },
       ],
+      feedback: '22=V, 9=I, 5=E, 14=N, 20=T, 15=O.',
+    },
+    {
+      id: 'd',
+      label: 'CUERVO',
+      isCorrect: false,
+      consequences: [
+        { type: 'recordDecision', decisionId: 'train-final-quiz', optionId: 'd', correct: false },
+        { type: 'loseLife' },
+        { type: 'dialog', text: 'Ese era otro caso.', tone: 'error' },
+      ],
+      feedback: '22=V, 9=I. Empieza con V.',
     },
   ],
 }
@@ -164,7 +213,7 @@ export const LEVEL_07_TRAIN: Level = {
   tone: 'mystery',
   startRoomId: 'train',
   rooms: { train: ROOM },
-  decisions: {},
+  decisions: { 'train-final-quiz': FINAL_QUIZ },
   puzzles: {
     'tr-name-cipher': NAME_CIPHER,
     'tr-suspect-memory': SUSPECT_MEMORY,
