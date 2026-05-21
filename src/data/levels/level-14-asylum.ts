@@ -51,7 +51,7 @@ const ROOM: Room = {
       cursor: 'look',
       visibleWhen: { type: 'flag', key: 'as_chair' },
       onClick: [
-        { type: 'dialog', text: 'En la nota del doctor: "Caso 3-7-4-9 — historia clínica del paciente". El número del archivo.', tone: 'info' },
+        { type: 'dialog', text: 'En la nota del doctor, escrito apurado: "Caso 3-7-4-9".', tone: 'info' },
       ],
     },
     {
@@ -170,7 +170,7 @@ const CHAIR: Puzzle = {
   solution: '0,0,0',
   onSolve: [
     { type: 'setFlag', key: 'as_chair', value: true },
-    { type: 'dialog', text: 'Las tres cintas se sueltan. Al levantarte ves una nota del doctor pegada en la pared.', tone: 'success' },
+    { type: 'dialog', text: 'Las tres cintas se sueltan. Al levantarte algo de la pared te llama la atención.', tone: 'success' },
   ],
 }
 
@@ -188,7 +188,7 @@ const HEART: Puzzle = {
   solution: 'timing-ok',
   onSolve: [
     { type: 'setFlag', key: 'as_heart', value: true },
-    { type: 'dialog', text: 'Tres pulsos en sincronía. El monitor pasa a verde. Ya no estás en pánico — podés concentrarte en el archivero.', tone: 'success' },
+    { type: 'dialog', text: 'Tres pulsos en sincronía. El monitor pasa a verde.', tone: 'success' },
   ],
 }
 
@@ -200,7 +200,7 @@ const FILE: Puzzle = {
   solution: '3749',
   onSolve: [
     { type: 'setFlag', key: 'as_file', value: true },
-    { type: 'dialog', text: 'El cajón se abre. Adentro: tu historia clínica con una página marcada y un diagnóstico escrito en código.', tone: 'success' },
+    { type: 'dialog', text: 'El cajón cede. Adentro: tu historia clínica, una hoja marcada con números rojos.', tone: 'success' },
   ],
   onFail: [{ type: 'dialog', text: 'El cajón no cede.', tone: 'error' }],
 }
@@ -212,12 +212,12 @@ const DOCTOR: Puzzle = {
   prompt: 'Diagnóstico del doctor',
   payload: {
     encrypted: [12, 15, 3, 15],
-    hint: 'A=01 … Z=26. Cuatro letras forman la palabra que el doctor usó.',
+    hint: 'Cuatro letras. La regla la viste en otro lado.',
   },
   solution: 'LOCO',
   onSolve: [
     { type: 'setFlag', key: 'as_door', value: true },
-    { type: 'dialog', text: '"LOCO". Eso te diagnosticaron. Pero ahora tenés todo lo que necesitás para salir — la cerradura de la puerta cede.', tone: 'success' },
+    { type: 'dialog', text: '"LOCO". Eso te diagnosticaron. La cerradura de la puerta cede.', tone: 'success' },
   ],
   onFail: [{ type: 'dialog', text: 'Esa no es la palabra del expediente.', tone: 'error' }],
 }

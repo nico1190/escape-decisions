@@ -192,8 +192,7 @@ const JOURNAL_CIPHER: Puzzle = {
     { type: 'setFlag', key: 'lh_journal', value: true },
     {
       type: 'dialog',
-      text:
-        'La palabra es "FARO". Algo se mueve sobre la puerta de bronce — andá a verla: ahora brillan cuatro cifras nuevas. Ése es el código del cerrojo.',
+      text: 'FARO. Algo cambia en el bronce de la puerta.',
       tone: 'success',
     },
   ],

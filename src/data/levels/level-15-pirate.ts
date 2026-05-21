@@ -16,7 +16,7 @@ const ROOM: Room = {
         {
           type: 'dialog',
           text:
-            'El mapa marca una "X" sobre una isla, y en el borde inferior hay 5 números tallados: 8 · 21 · 18 · 20 · 15. Cifra del rumbo, parece.',
+            'El mapa marca una "X" sobre una isla. En el borde inferior, 5 números tallados: 8 · 21 · 18 · 20 · 15.',
           tone: 'info',
         },
       ],
@@ -164,7 +164,7 @@ const COMPASS: Puzzle = {
   solution: '0,0,0',
   onSolve: [
     { type: 'setFlag', key: 'pi_compass', value: true },
-    { type: 'dialog', text: 'La brújula apunta firme al norte. Ahora podés leer el rumbo del mapa.', tone: 'success' },
+    { type: 'dialog', text: 'La brújula apunta firme al norte.', tone: 'success' },
   ],
 }
 
@@ -175,12 +175,12 @@ const MAP: Puzzle = {
   prompt: 'Descifrar el rumbo del mapa',
   payload: {
     encrypted: [8, 21, 18, 20, 15],
-    hint: 'A=01 … Z=26. Cinco letras forman la palabra grabada por el viejo pirata.',
+    hint: 'Cinco letras grabadas por el viejo pirata.',
   },
   solution: 'HURTO',
   onSolve: [
     { type: 'setFlag', key: 'pi_map', value: true },
-    { type: 'dialog', text: '"HURTO". La palabra clave que el viejo pirata dejó marcando el cofre. Ahora a preparar la pólvora.', tone: 'success' },
+    { type: 'dialog', text: '"HURTO". La palabra encaja. El mapa se afloja sobre la mesa.', tone: 'success' },
   ],
   onFail: [{ type: 'dialog', text: 'Esa no es la palabra del pirata. Probá otras letras.', tone: 'error' }],
 }
@@ -197,7 +197,7 @@ const POWDER: Puzzle = {
   solution: '3715',
   onSolve: [
     { type: 'setFlag', key: 'pi_powder', value: true },
-    { type: 'dialog', text: 'La proporción es la justa. Ahora encendé la mecha en el momento exacto — el cofre se abre con un disparo seco.', tone: 'success' },
+    { type: 'dialog', text: 'La proporción es la justa. El cañón está listo.', tone: 'success' },
   ],
 }
 

@@ -136,6 +136,7 @@ export type PuzzleKind =
   | 'timing'
   | 'rotation'
   | 'cipher'
+  | 'lights-out'
 
 export interface Puzzle {
   id: PuzzleId

@@ -14,6 +14,7 @@ import { WirePuzzle } from './puzzles/WirePuzzle'
 import { TimingPuzzle } from './puzzles/TimingPuzzle'
 import { RotationPuzzle } from './puzzles/RotationPuzzle'
 import { CipherPuzzle } from './puzzles/CipherPuzzle'
+import { LightsOutPuzzle } from './puzzles/LightsOutPuzzle'
 
 /**
  * Dispatcher modal: based on `puzzle.kind`, renders the appropriate mini-game
@@ -92,6 +93,13 @@ export function PuzzleModal() {
         )}
         {puzzle?.kind === 'cipher' && (
           <CipherPuzzle
+            puzzle={puzzle}
+            onSolve={() => submitPuzzle(true)}
+            onClose={closePuzzle}
+          />
+        )}
+        {puzzle?.kind === 'lights-out' && (
+          <LightsOutPuzzle
             puzzle={puzzle}
             onSolve={() => submitPuzzle(true)}
             onClose={closePuzzle}

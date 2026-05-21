@@ -38,7 +38,7 @@ const TEMPLE: Room = {
         {
           type: 'dialog',
           text:
-            'En la inscripción están grabados, en piedra, cuatro números: 4 · 9 · 15 · 19. Es un mensaje cifrado.',
+            'En la piedra están grabados cuatro números: 4 · 9 · 15 · 19.',
           tone: 'info',
         },
       ],
@@ -58,7 +58,7 @@ const TEMPLE: Room = {
         {
           type: 'dialog',
           text:
-            'Una estela tallada con el alfabeto: a cada letra le corresponde un número (A=1, B=2 … Z=26). La clave para descifrar.',
+            'Una estela tallada con el alfabeto: A=1, B=2 … Z=26.',
           tone: 'info',
         },
       ],
@@ -253,7 +253,7 @@ const CIPHER_PUZZLE: Puzzle = {
     {
       type: 'dialog',
       text:
-        'La palabra grabada es "DIOS". El panel se abre. Sobre el portón principal, en el centro, cuatro runas empiezan a brillar — andá a verlas: tienen el código de salida.',
+        'DIOS. El panel cede. Algo cambia sobre el portón principal.',
       tone: 'success',
     },
   ],

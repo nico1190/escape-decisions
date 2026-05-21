@@ -38,7 +38,7 @@ const STATION: Room = {
         {
           type: 'dialog',
           text:
-            'El display titila: "PWR · 7 · 2 · 5 · 8". Son los valores objetivo de los 4 canales de reactor.',
+            'El display titila: "PWR · 7 · 2 · 5 · 8". Y nada más.',
           tone: 'info',
         },
       ],
@@ -58,7 +58,7 @@ const STATION: Room = {
         {
           type: 'dialog',
           text:
-            'Un poster viejo pegado a la pared dice "OVERRIDE — 9-3-1-6". El código de emergencia para la puerta.',
+            'Un poster despegado de la pared, con tinta corrida: "OVERRIDE — 9-3-1-6". Nada más.',
           tone: 'info',
         },
       ],

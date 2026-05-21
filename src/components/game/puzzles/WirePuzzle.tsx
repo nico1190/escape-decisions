@@ -151,7 +151,7 @@ export function WirePuzzle({ puzzle, onSolve, onClose }: Props) {
   const yFor = (i: number) => slot * (i + 1)
 
   const ruleHint = expectedSequence
-    ? `Conectá los cables en orden ${matchRule === 'reverse-alphabetical' ? 'alfabético INVERSO' : 'alfabético'} del nombre del color: ${expectedSequence.map((c) => WIRE_COLORS[c]?.label ?? c).join(' → ')}. Equivocarse reinicia todo.`
+    ? `Orden ${matchRule === 'reverse-alphabetical' ? 'alfabético inverso (Z → A)' : 'alfabético (A → Z)'} del nombre del color. Equivocarse reinicia.`
     : 'Conectá cada terminal izquierdo con el derecho del mismo color. Tocá un cable conectado para quitarlo.'
 
   return (

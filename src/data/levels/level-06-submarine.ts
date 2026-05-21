@@ -28,7 +28,7 @@ const ROOM: Room = {
       onClick: [
         {
           type: 'dialog',
-          text: 'En el manual: Profundidades de calibración por canal — 2 · 5 · 1 · 3. Los 4 ajustes.',
+          text: 'En el manual: "Profundidades por canal — 2 · 5 · 1 · 3".',
           tone: 'info',
         },
       ],
@@ -42,7 +42,7 @@ const ROOM: Room = {
       onClick: [
         {
           type: 'dialog',
-          text: 'Una nota pegada en la radio: FREQ 4-7-2-9. La frecuencia de rescate.',
+          text: 'Una nota pegada en la radio, garabateada: FREQ 4-7-2-9.',
           tone: 'info',
         },
       ],

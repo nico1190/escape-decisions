@@ -69,7 +69,7 @@ const ROOM: Room = {
         {
           type: 'dialog',
           text:
-            'En la pizarra, escrito a marcador rojo: 19 · 15 · 13 · 1. El nombre del proyecto, cifrado A=1…Z=26.',
+            'En la pizarra, escrito a marcador rojo: 19 · 15 · 13 · 1.',
           tone: 'info',
         },
       ],
@@ -112,7 +112,7 @@ const ROOM: Room = {
       cursor: 'look',
       visibleWhen: { type: 'flag', key: 'lab_codename' },
       onClick: [
-        { type: 'dialog', text: 'Sobre la puerta brilla: Σ · 4 · 7 · 2 · 8. El primer carácter es decorativo — el código del keypad es 4-7-2-8.', tone: 'success' },
+        { type: 'dialog', text: 'Sobre la puerta brillan, en ámbar: Σ · 4 · 7 · 2 · 8.', tone: 'success' },
       ],
     },
     {
@@ -244,7 +244,7 @@ const CODENAME: Puzzle = {
   prompt: 'Nombre del proyecto',
   payload: {
     encrypted: [19, 15, 13, 1],
-    hint: 'La pizarra dice los números. A=1…Z=26.',
+    hint: 'Mirá la pizarra. Buscá la regla en otra parte.',
   },
   solution: 'SOMA',
   onSolve: [

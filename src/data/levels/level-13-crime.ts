@@ -16,7 +16,7 @@ const ROOM: Room = {
         {
           type: 'dialog',
           text:
-            'En la nota pegada al corcho hay 5 letras desordenadas: R · A · O · S · O. Ordenalas y vas a tener el apellido del sospechoso.',
+            'En la nota pegada al corcho, 5 letras desordenadas: R · A · O · S · O.',
           tone: 'info',
         },
       ],
@@ -31,7 +31,7 @@ const ROOM: Room = {
         {
           type: 'dialog',
           text:
-            'Última llamada en el celular: 5 dígitos visibles antes de que se cortara. Tenés un instante para verlos cuando lo encendés.',
+            'El celular guarda la última llamada — 5 dígitos. Vas a verlos un instante cuando lo encendés.',
           tone: 'info',
         },
       ],
@@ -159,13 +159,13 @@ const SUSPECT: Puzzle = {
   prompt: 'Apellido del sospechoso',
   payload: {
     length: 5,
-    hint: 'Las 5 letras del corcho forman un apellido común.',
+    hint: 'Las 5 letras del corcho forman un apellido.',
     bank: ['R', 'O', 'S', 'A', 'S', 'T', 'L', 'N'],
   },
   solution: 'ROSAS',
   onSolve: [
     { type: 'setFlag', key: 'cr_suspect', value: true },
-    { type: 'dialog', text: 'El apellido es ROSAS. Ahora hay que confirmar con quién habló — el teléfono guarda la última llamada.', tone: 'success' },
+    { type: 'dialog', text: 'ROSAS. La nota cede al fichero del caso.', tone: 'success' },
   ],
   onFail: [{ type: 'dialog', text: 'No coincide con los archivos.', tone: 'error' }],
 }
@@ -182,7 +182,7 @@ const WITNESS: Puzzle = {
   solution: '41527',
   onSolve: [
     { type: 'setFlag', key: 'cr_witness', value: true },
-    { type: 'dialog', text: 'Coincide con el número del testigo principal. Ahora descifrá la nota de la víctima.', tone: 'success' },
+    { type: 'dialog', text: 'Coincide con un número del archivo del caso.', tone: 'success' },
   ],
 }
 
@@ -193,12 +193,12 @@ const NOTE: Puzzle = {
   prompt: 'Mensaje cifrado de la víctima',
   payload: {
     encrypted: [8, 21, 25, 5],
-    hint: 'A=01 … Z=26. La víctima escribió 4 letras antes de morir.',
+    hint: 'Cuatro letras escritas con sangre. Buscá la regla.',
   },
   solution: 'HUYE',
   onSolve: [
     { type: 'setFlag', key: 'cr_note', value: true },
-    { type: 'dialog', text: 'La víctima escribió "HUYE" antes de morir. La puerta del despacho se desbloquea con el código que aparece tenuemente en el marco.', tone: 'success' },
+    { type: 'dialog', text: 'HUYE. La víctima escribió eso antes de morir. La puerta del despacho cede.', tone: 'success' },
   ],
   onFail: [{ type: 'dialog', text: 'No es lo que dejó escrito.', tone: 'error' }],
 }

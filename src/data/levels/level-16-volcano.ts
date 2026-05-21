@@ -16,7 +16,7 @@ const ROOM: Room = {
         {
           type: 'dialog',
           text:
-            'Cartel pegado a la pared: "ESCAPE 8-1-5-2". El código de lanzamiento de la cápsula.',
+            'Cartel pegado, medio quemado: "8-1-5-2". Sin más leyenda.',
           tone: 'info',
         },
       ],
@@ -143,7 +143,7 @@ const ALARM: Puzzle = {
   solution: 'wired',
   onSolve: [
     { type: 'setFlag', key: 'vo_alarm', value: true },
-    { type: 'dialog', text: 'La alarma cede. El sismógrafo todavía marca tremores fuertes — hay que estabilizarlo manualmente.', tone: 'success' },
+    { type: 'dialog', text: 'La alarma cede. El sismógrafo todavía marca tremores fuertes.', tone: 'success' },
   ],
   onFail: [{ type: 'dialog', text: 'Cortocircuito. La alarma sigue chillando.', tone: 'error' }],
 }
@@ -163,7 +163,7 @@ const TREMOR: Puzzle = {
   solution: 'timing-ok',
   onSolve: [
     { type: 'setFlag', key: 'vo_tremor', value: true },
-    { type: 'dialog', text: 'Cuatro pulsos clavados. El sismógrafo pasa a verde. La cápsula está habilitada.', tone: 'success' },
+    { type: 'dialog', text: 'Cuatro pulsos clavados. El sismógrafo pasa a verde.', tone: 'success' },
   ],
 }
 

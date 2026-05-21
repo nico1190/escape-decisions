@@ -16,7 +16,7 @@ const ROOM: Room = {
         {
           type: 'dialog',
           text:
-            'En la carta caída: "Dial sliders: 7 · 2 · 5 · 9". Cuatro valores para los rotores del dial.',
+            'En la carta caída, garabateado al dorso: "7 · 2 · 5 · 9".',
           tone: 'info',
         },
       ],
@@ -68,7 +68,7 @@ const ROOM: Room = {
       cursor: 'look',
       visibleWhen: { type: 'flag', key: 'cas_dial' },
       onClick: [
-        { type: 'dialog', text: 'En la lectura biométrica: 9 - 6 - 3 - 0. Ése es el código.', tone: 'success' },
+        { type: 'dialog', text: 'En la lectura biométrica titilan cuatro dígitos: 9 - 6 - 3 - 0.', tone: 'success' },
       ],
     },
     {
@@ -171,7 +171,7 @@ const DIAL: Puzzle = {
   solution: '7259',
   onSolve: [
     { type: 'setFlag', key: 'cas_dial', value: true },
-    { type: 'dialog', text: 'Los rotores trabaron. Sobre el dial, el lector biométrico revela un código de salida.', tone: 'success' },
+    { type: 'dialog', text: 'Los rotores trabaron. El lector biométrico se enciende.', tone: 'success' },
   ],
 }
 

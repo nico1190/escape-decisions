@@ -15,7 +15,7 @@ const ROOM: Room = {
       onClick: [
         {
           type: 'dialog',
-          text: 'En la libreta: "ABORT 1-1-7-9". El código maestro de abort.',
+          text: 'En la libreta, anotado con birome: "1-1-7-9". Sin más contexto.',
           tone: 'info',
         },
       ],

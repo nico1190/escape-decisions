@@ -15,6 +15,7 @@ import { LEVEL_13_CRIME } from './level-13-crime'
 import { LEVEL_14_ASYLUM } from './level-14-asylum'
 import { LEVEL_15_PIRATE } from './level-15-pirate'
 import { LEVEL_16_VOLCANO } from './level-16-volcano'
+import { LEVEL_17_CRYPT } from './level-17-crypt'
 
 export const LEVELS: Level[] = [
   LEVEL_01_KITCHEN,
@@ -33,6 +34,7 @@ export const LEVELS: Level[] = [
   LEVEL_14_ASYLUM,
   LEVEL_15_PIRATE,
   LEVEL_16_VOLCANO,
+  LEVEL_17_CRYPT,
 ]
 
 export const LEVELS_BY_ID: Record<LevelId, Level> = Object.fromEntries(

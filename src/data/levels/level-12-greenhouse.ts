@@ -16,7 +16,7 @@ const ROOM: Room = {
         {
           type: 'dialog',
           text:
-            'En la última página, anotación apurada: "Antídoto: 22 — 9 — 4 — 1". El nombre de la planta cifrado. A=1, Z=26.',
+            'En la última página, anotación apurada y casi ilegible: "22 — 9 — 4 — 1".',
           tone: 'info',
         },
       ],
@@ -31,7 +31,7 @@ const ROOM: Room = {
         {
           type: 'dialog',
           text:
-            'En la etiqueta del estante: "PROCEDIMIENTO 2·1·8·3". Las dosis exactas de cada ingrediente del antídoto.',
+            'En la etiqueta del estante, manuscrita: "2·1·8·3". Sin más detalle.',
           tone: 'info',
         },
       ],
@@ -164,12 +164,12 @@ const PLANT: Puzzle = {
   prompt: 'Nombre de la planta antídoto',
   payload: {
     encrypted: [22, 9, 4, 1],
-    hint: 'A=01 … Z=26. Cuatro letras forman el nombre del antídoto.',
+    hint: 'Cuatro letras. La regla no está en este panel.',
   },
   solution: 'VIDA',
   onSolve: [
     { type: 'setFlag', key: 'gh_plant', value: true },
-    { type: 'dialog', text: 'La planta se llama VIDA. Ahora hay que prepararla — usá el mortero con las dosis exactas.', tone: 'success' },
+    { type: 'dialog', text: 'VIDA. La página se ilumina apenas. El mortero queda visible.', tone: 'success' },
   ],
   onFail: [{ type: 'dialog', text: 'No coincide con ningún nombre del herbario.', tone: 'error' }],
 }
@@ -186,7 +186,7 @@ const ANTIDOTE: Puzzle = {
   solution: '2183',
   onSolve: [
     { type: 'setFlag', key: 'gh_antidote', value: true },
-    { type: 'dialog', text: 'La mezcla cambia a verde brillante. La bebés. Las pulsaciones se calman. En el marco de la puerta de hierro aparecen cifras tenues.', tone: 'success' },
+    { type: 'dialog', text: 'La mezcla cambia a verde brillante. La bebés. Las pulsaciones se calman.', tone: 'success' },
   ],
 }
 
